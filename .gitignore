@@ -33,3 +33,6 @@ docs/
 po/*~
 # RStudio Connect folder
 rsconnect/
+
+chapter-1-matrix-algebra_files/
+chapter-1-matrix-algebra.html
