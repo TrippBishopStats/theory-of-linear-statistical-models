@@ -6,6 +6,8 @@ format: html
 ```{r setup}
 #| echo: false
 #| message: false
+#| warning: false
+rm(list=ls())
 library(matlib)
 ```
 
@@ -57,7 +59,7 @@ T = \left [{\begin{array}{cc}
 $$
 
 ### Problem 1
-If possible, perform each matrix operation. If the indicated operation is not possible, explain why.
+> If possible, perform each matrix operation. If the indicated operation is not possible, explain why.
 
 a.) $X + Y$ - This operation is not possible because $X$ and $Y$ do not have the same dimensions.
 b.) $X + W$
@@ -126,6 +128,7 @@ i.) $X + (Y+Z)$ - None of these matrices have the same dimensions so this operat
 j.) $Z(T + W)$ - This operation is defined.
 
 ```{r}
+#|echo: false
 Z <- matrix(c(1,1,
               -1,1,
               0,2), ncol = 2, nrow = 3, byrow = TRUE)
@@ -144,7 +147,7 @@ $$
 k.) $Y(T + W)$ - This operation is not defined because $Y$ does not conform with $T+W$.
 
 ### Problem 2
-Find $(W + T)Y$, $WY$, and $TY$. Show that $(W+T)Y = WY + TY$, thus illustrating property 5 for matrix operations.
+> Find $(W + T)Y$, $WY$, and $TY$. Show that $(W+T)Y = WY + TY$, thus illustrating property 5 for matrix operations.
 
 ```{r}
 (W + T) %*% Y
@@ -160,7 +163,7 @@ T%*%Y
 From these results, it is clear that $(W+T)Y = WY + TY$.
 
 ### Problem 3
-Find the zero matrix associated with $X$; of $Y$. Can you generalize to describe the zero matrix for any $n\times k$ matrix?
+> Find the zero matrix associated with $X$; of $Y$. Can you generalize to describe the zero matrix for any $n\times k$ matrix?
 
 The zero matrix is defined such that $X + 0 = 0 + X = X$. The matrix that satisfies this condition for $X$ is the $2\times2$ $0$ matrix:
 $$
@@ -183,7 +186,7 @@ $$
 In general, the zero matrix for any $n\times k$ matrix will be the matrix of the same dimensions with zeroes for all entries.
 
 ### Problem 4
-Find the negative of $X$; of $Y$. Can you generalise to describe the form of the negative matrix for any $n\times k$ matrix?
+> Find the negative of $X$; of $Y$. Can you generalise to describe the form of the negative matrix for any $n\times k$ matrix?
 
 The negative matrix, $N$ of a matrix $X$ satisfies the condition that $X + N = 0$. We can obtain this matrix by scalar multiplication by $-1$.
 
@@ -199,7 +202,8 @@ $$
 $$
 
 ```{r}
-printMatrix(-1*Y, latex = TRUE, tol=7)
+#|echo: false
+# printMatrix(-1*Y, latex = TRUE, tol=7)
 ```
 $$
 (-1)Y = 
@@ -213,10 +217,11 @@ $$
 In general, the negative of a matrix, $A$, is $(-1)A$.
 
 ### Problem 5
-Find $2Y$, $X(2Y)$, $XY$, and then $2(XY)$. Show that $X(2Y)=2(XY)$, thus illustrating property 6 for matrix operations.
+> Find $2Y$, $X(2Y)$, $XY$, and then $2(XY)$. Show that $X(2Y)=2(XY)$, thus illustrating property 6 for matrix operations.
 
 ```{r}
-printMatrix(X %*% (2*Y), latex = TRUE, tol=7)
+#|echo: false
+# printMatrix(X %*% (2*Y), latex = TRUE, tol=7)
 ```
 
 $$
@@ -254,3 +259,310 @@ $$
   \end{array}
 \right]
 $$
+These operations show that we can pull the scalar out in front and perform the matrix operation first, or perform the scalar multiplication first and then do the matrix multiplication.
+
+### Problem 6
+> Let
+$$
+X = \left [ {
+\begin{array}{ccc}
+x_{11} & x_{12} \\
+x_{21} & x_{22} \\
+x_{31} & x_{32} \\
+\end{array}
+} \right ]\quad\text{and}\quad
+Y = \left[{\begin{array}{cccc}
+y_{11} & y_{12} & y_{13} & y_{14} \\
+y_{21} & y_{22} & y_{23} & y_{24} \\
+\end{array}}\right]
+$$
+> What are the dimensions of $XY$? Using Definition 1.3.3, find the entry in row 1 and column 1 of the product $XY$. Also find the entry in row 2 and column 3 of the product.
+
+The dimensions of $XY$ will be $3\times4$. Generically, if $X$ is $m\times n$ and $Y$ is $n\times k$, then product of $X$ and $Y$ will be a matrix that is $m\times k$.
+
+If $P = XY$, then $p_{11} = x_{11}y_{11} + x_{12}y_{21}$. $p_{23} = x_{21}y_{13} + x_{22}y_{23}$.
+
+Here's a matrix to verify the results above.
+```{r}
+X <- matrix(c(2,1,
+              3,2,
+              1,4), ncol = 2, nrow = 3, byrow=TRUE)
+
+Y <- matrix(c(3,4,0,1,
+              1,3,1,1), ncol = 4, nrow = 2, byrow = TRUE)
+
+X %*% Y
+
+```
+### Problem 7
+> Let $\vec{x}^T = [x_1\quad x_2\quad x_3]$ and $\vec{y}^T = [y_1\quad y_2\quad y_3]$. What are the dimensions of $\vec{x}^T\vec{y}$? of $\vec{y}\vec{x}^T$? Find the expression for $\vec{x}^T\vec{y}$ and evaluate this expression when $x_1 = 3, x_2=-1$, and $x_3 = 6$.
+
+Since $\vec{x}^T$ is a $1\times 3$ matrix and $\vec{y}$ is a $3\times 1$ matrix, the result of their product will be a $1\times 1$ matrix or a scalar. The dimensions of $\vec{y}\vec{x}^T$ will be a $3\times 3$ matrix by the same logic.
+$$
+\vec{x}^T\vec{y} = [x_1\quad x_2\quad x_3]\left [{
+\begin{array}{c}
+y_1 \\
+y_2 \\
+y_3 \\
+\end{array}
+} \right ] = x_1y_1 + x_2y_2 + x_3y_3
+$$
+When $\vec{x}^T = [3\quad -1\quad 6]$, the $\vec{x}^T\vec{y} = 3y_1 - y_2 + 6y_3$.
+
+### Problem 8
+> If define $X^2$ to mean $X$ multiplied by itself, what must be true of $X$ in order for this matrix to exist?
+
+In order for this to work, $X$ must be a square matrix. If $X$ is an $m\times n$ matrix where $m\neq n$, then the columns of the first copy won't match the rows of the second copy and matrix multiplication will be undefined for $X$.
+
+### Problem 9
+
+
+### Problem 10
+> Let
+> $$
+X = \left [ {
+\begin{array}{ccc}
+2 & 1 & 1 \\
+1 & -1 & 3 \\
+0 & 1 & 2 \\
+\end{array}
+} \right ]\quad\text{and}\quad
+Y = \left[{\begin{array}{ccc}
+1 & 1 & 0 \\
+0 & 2 & 1 \\
+-1 & 2 & 3
+\end{array}}\right]
+$$
+Find $X^T, Y^T, X^T + Y^T, X + Y, \text{ and } (X + Y)^T$. Verify that $(X + Y)^T = X^T + Y^T$.
+
+```{r}
+X <- matrix(c(2,1,1,
+              1,-1,3,
+              0,1,2), ncol = 3, nrow = 3, byrow = TRUE)
+
+Y <- matrix(c(1,1,0,
+              0,2,1,
+              -1,2,3), ncol = 3, nrow = 3, byrow = TRUE)
+```
+
+Find $X^T$ and $Y^T$.
+```{r}
+X_t <- t(X)
+Y_t <- t(Y)
+```
+
+Find $X^T + Y^T$
+```{r}
+X_t + Y_t
+```
+Find $X + Y$
+```{r}
+X + Y
+```
+Find $(X + Y)^T$
+```{r}
+t(X + Y)
+```
+
+The results above confirm that $X^T + Y^T = (X + Y)^T$.
+
+### Problem 11
+> Let
+> $$
+X = \left [ {
+\begin{array}{cc}
+1 & 1 \\
+1 & 1 \\
+\end{array}
+} \right ]\quad\text{and}\quad
+Y = \left[{\begin{array}{ccc}
+1 & 3 & 0 \\
+2 & 5 & 1 \\
+\end{array}}\right]
+$$
+Find $X^T, Y^T, Y^TX^T, XY, \text{ and } (XY)^T$. Verify that $Y^TX^T = (XY)^T$.
+
+```{r}
+X <- matrix(c(1,1,
+              1,1), ncol = 2, nrow = 2, byrow = TRUE)
+
+Y <- matrix(c(1,3,0,
+              2,5,1), ncol = 3, nrow = 2, byrow = TRUE)
+```
+
+Since $X$ is a symmetric matrix, $X^T = X$.
+```{r}
+X_t <- t(X)
+X_t
+```
+
+
+Find $Y^T$
+```{r}
+Y_t <- t(Y)
+Y_t
+```
+Find $Y^TX^T$
+```{r}
+Y_t %*% X_t
+```
+Find $XY$
+```{r}
+X %*% Y
+```
+Find $(XY)^T$
+```{r}
+t(X %*% Y)
+```
+
+These results confirm that $Y^TX^T = (XY)^T$.
+
+### Problem 12
+> Let $X$, $Y$, and $Z$ be conformable. Prove that $(XYZ)^T = Z^TY^TX^T$.
+
+We can show this by leveraging the previous result. Let $W = XY$. We can then rewrite the equation as $(WZ)^T = Z^TW^T$. This follows from the property of transposes. But since $W=XY$, it follows that $W^T = Y^TX^T$. Thus, by substitution, we get that $(XYZ)^T = Z^TY^TX^T$.
+
+### Problem 13
+> Let
+> $$
+X = \left [ {
+\begin{array}{cccc}
+3 & 0 & 8 & -2 \\
+1 & 2 & 5 & 0 \\
+\end{array}
+} \right ]
+$$
+What are the dimensions of $X^T$? Find $X^T$. Is $X$ symmetric?
+
+Since $X$ is a $2\times 4$ matrix, $X^T$ will be $4\times 2$.
+
+$$
+X^T = \left [ {
+\begin{array}{cc}
+3 & 1 \\
+0 & 2 \\
+8 & 5 \\
+-2 & 0 \\
+\end{array}
+} \right ]
+$$
+$X$ cannot be symmetric because it is not a square matrix. $X\neq X^T$.
+
+### Problem 14
+> Let
+> $$
+X = \left [ {
+\begin{array}{ccc}
+2 & 1 & 4 \\
+1 & -3 & x_{23} \\
+4 & 2 & 0
+\end{array}
+} \right ]
+$$
+What must $x_{23}$ equal in order for $X$ to be symmetric?
+
+$x_{23}$ must be $2$ for $X$ to be a symmetric matrix.
+
+### Problem 15
+> Let
+> $$
+X = \left [ {
+\begin{array}{c}
+0 \\
+1 \\
+-1 
+\end{array}
+} \right ]
+$$
+Find $\vec{x}^T\vec{x}$ and verify the statement of Theorem 1.2.2.
+
+$\vec{x}^T\vec{x} = x_1^2 + x_2^2 + x_3^2 = 0 + 1 + 1 = 2$. We expect a scalar because we have a $1\times 3$ matrix multiplied by a $3\times 1$ matrix resulting in a $1\times 1$ matrix.
+
+### Problem 16
+> Let
+> $$
+x = \left [ {
+\begin{array}{c}
+2 \\
+4 \\
+1 
+\end{array}
+} \right ]
+$$
+Find $\vec{x}\vec{x}^t$ and verify the statement of Theorem 1.2.3.
+
+```{r}
+x <- c(2,4,1)
+x_t <- t(x)
+
+x %*% x_t
+```
+Theorem 1.2.3 states that $\vec{x}\vec{x}^t$ results in a symmetric matrix with squares on the diagonal and cross products elsewhere. The resulting matrix is indeed a symmetric $3\times 3$ matrix with $x_1^2, x_2^2,x_3^2$ on the diagonal and cross products elsewhere.
+
+### Problem 17
+> Prove Theorem 1.2.2
+
+Theorem 1.2.2 states that if
+$$
+x = \left [ {
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n 
+\end{array}
+} \right ]
+$$
+then,
+$$
+\vec{x}^T\vec{x} = \sum^n_{i=1} x_i^2
+$$
+This result follows directly from the way that matrix multiplication is defined.
+
+$$
+\vec{x}^T\vec{x} = [x_1\quad x_2\quad \cdots\quad x_n]\left [{
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{array}
+} \right ] = x_1^2 + x_2^2 + \cdots x_n^2 = \sum_{i=1}^n x_i^2
+$$
+
+This operation pairs each entry with itself in a product and the squares are summed to produce the one and only entry in the new matrix.
+
+### Problem 18
+> Prove Theorem 1.2.3
+
+Theorem 1.2.3 states that if
+$$
+x = \left [ {
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n 
+\end{array}
+} \right ]
+$$
+then $\vec{x}\vec{x}^T results in an $n\times n$ symmetric matrix with squares on the diagonal and cross products elsewhere.
+
+When we carry out the matrix multiplication we expect to get a $3\times 3$ matrix.
+
+$$
+\vec{x}\vec{x}^T = \left [{
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{array}
+} \right ][x_1\quad x_2\quad \cdots\quad x_n] = \left[{\begin{array}{ccc} 
+x_1^2 & x_2x_1 & \cdots & x_nx_1\\
+x_1x_2 & x_2^2 & \cdots & x_nx_2\\
+\vdots & \vdots & \ddots & \vdots \\
+x_1x_n & x_2x_n & \cdots & x_n^2\\
+\end{array}} \right]
+$$
+Since scalar multiplication is commutative, $x_ix_j = x_jx_i$ so we can readily see that the cross products get reflected across the diagonal which is indeed composed of the square of the entries of the original vector, $\vec{x}$. 
