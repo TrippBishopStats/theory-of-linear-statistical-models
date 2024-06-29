@@ -566,3 +566,158 @@ x_1x_n & x_2x_n & \cdots & x_n^2\\
 \end{array}} \right]
 $$
 Since scalar multiplication is commutative, $x_ix_j = x_jx_i$ so we can readily see that the cross products get reflected across the diagonal which is indeed composed of the square of the entries of the original vector, $\vec{x}$. 
+
+### Problem 19
+> Let
+> $$
+x = \left [ {
+\begin{array}{ccc}
+2 & 0 & 1 \\
+1 & 3 & -1 \\
+\end{array}
+} \right ]
+$$
+What are the dimensions of $X^TX$? Find $X^TX$ by inspection. Verify your answer by direct multiplication. Is $X^TX$ symmetric as expected?
+
+$X^TX$ will be a $3\times 3$ matrix. Since this is a square matrix, it has the potential to be symmetric.
+
+By inspection, it's not obvious that it will be symmetric.
+$$
+\left [ {
+\begin{array}{cc}
+2 & 1 \\
+0 & 3 \\
+1 & -1 \\
+\end{array}
+} \right ]
+\left [ {
+\begin{array}{ccc}
+2 & 0 & 1 \\
+1 & 3 & -1 \\
+\end{array}
+} \right ]
+$$
+
+```{r problem 19}
+X <- matrix(c(2,0,1,
+              1,3,-1), ncol = 3, nrow = 2, byrow = TRUE)
+X_t <- t(X)
+
+X_t %*% X
+```
+Direct inspection of the matrix multiplication shows that the matrix product is, in fact, symmetric.
+
+### Problem 20
+Not terribly interesting and similar to problem 19. Skipping.
+
+### Problem 21
+Not terribly interesting and similar to problem 19. Skipping.
+
+### Problem 22
+> Prove Theorem 1.2.1.
+
+This result flows directly from the way that matrix multiplication is defined. Since the columns of $X$ are the rows of $X^T$, we get something that looks like this:
+$$
+X = \left[{\begin{array}{cccc} 
+x_{11} & x_{12} & \cdots & x_{1k}\\
+x_{21} & x_{22} & \cdots & x_{2k}\\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n1} & x_{n2} & \cdots & x_{nk}\\
+\end{array}} \right];\quad X^T = \left[{\begin{array}{cccc} 
+x_{11} & x_{21} & \cdots & x_{n1}\\
+x_{12} & x_{22} & \cdots & x_{n2}\\
+\vdots & \vdots & \ddots & \vdots \\
+x_{k1} & x_{k2} & \cdots & x_{kn}\\
+\end{array}} \right]
+$$
+Since the rows of $X^T$ are the columns of $X$ when we take the dot product of row $i$ of $X^T$ with column $i$ of $X$, each term will be paired with it's "twin", resulting in the squared terms on the diagonal of $X^TX$. When we take the dot product of row $i$ of $X^T$ with column $j$ of $X$, $i\neq j$, then we get a sum of cross products as indicated by the theorem. 
+
+$$
+X^TX = \left[{\begin{array}{ccc} 
+\sum_{i=1}^n x_{i1}^2 & \sum_{i=1}^n x_{i1}x_{i2} & \cdots & \sum_{i=1}^n x_{i1}x_{ik} \\
+\sum_{i=1}^n x_{i2}x_{i1} & \sum_{i=1}^n x_{i2}^2 & \cdots & \sum_{i=1}^n x_{i2}x_{ik}\\
+\vdots & \vdots & \ddots & \vdots \\
+\sum_{i=1}^n x_{ik}x_{i1} & \sum_{i=1}^n x_{ik}x_{i2} & \cdots & \sum_{i=1}^n x_{ik}^2\\
+\end{array}} \right]
+$$
+
+### Problem 23
+> Suppose that $X$ is an $n\times k$ matrix whose first column is a column of ones. What will be the first main diagonal entry of $X^TX$?
+
+We can think of this operation as the dot product of the first row vector of $X^T$ and the first column vector of $X$. This results in $1^1 + 1^2 + \cdots + 1^2 = \sum_{i=1}^n 1^2 = n$. Thus, the first entry on the main diagonal will be $n$. 
+
+### Problem 24
+We can leverage the proof of Theorem 1.2.1. Notice that The columns of $X^TX$ are equal to the rows. This means that if we were to transpose $X^TX$, the resulting matrix would be unchanged. This shows that $(X^TX)^T = X^TX$. We can also show this by distributing the transpose operator: $(X^TX)^T = X^T(X^T)^T = X^TX$. Note that when the transpose operator is distributed, the matrices inside that parentheses must have their order reversed so that they conform.
+
+### Problem 25
+> Show that if $X$ and $Y$ are both $n\times n$ symmetric matrices that $X+Y$ and $X-Y$ are also symmetric.
+
+Since for $X$, $x_{ij} = x_{ji}$ and the same is true for $Y$ when we add or subtract these two matrices, the resulting entries $(x-y)_{ij} = (x-y)_{ji}$ and $(x+y)_{ij} = (x+y)_{ji}$. Simple $2\times 2$ matrices illustrate the point.
+
+$$
+X = \left[
+ \begin{array}{rr}
+ x_{11} & x_{12} \\ 
+  x_{21} & x_{22} \\ 
+  \end{array}
+\right];\quad Y = \left[
+ \begin{array}{rr}
+ y_{11} & y_{12} \\ 
+  y_{21} & y_{22} \\ 
+  \end{array}
+\right]
+$$
+$$
+X + Y = \left[
+ \begin{array}{rr}
+ x_{11}+y_{11} & x_{12}+y_{12} \\ 
+ x_{21}+y_{21} & x_{22}+y_{22} \\ 
+  \end{array}
+\right]
+$$
+Since $x_{12} = x_{21}$ and $y_{12} = y_{21}$, the sums $x_{12}+y_{12} = x_{21}+y_{21}$ showing that $X+Y$ is also symmetric. The same reasoning can be applied to $X-Y$ to show that it must also be a symmetric matrix.
+
+### Problem 26
+> Let
+$$
+X = \left[
+ \begin{array}{rr}
+ 2 & 4 & 8 \\ 
+ 1 & 3 & 2 \\ 
+  \end{array}
+\right]
+$$
+Show that
+$$
+I = \left[
+ \begin{array}{rrr}
+ 1 & 0 & 0 \\ 
+ 0 & 1 & 0 \\
+ 0 & 0 & 1 \\
+  \end{array}
+\right]
+$$
+is the right identity for $X$. What are the dimensions of its left identity? Does it have an overall identity?
+
+Because it is not a square matrix, $X$ does not have an overall identity. The left identify of $X$ will need to be a $2\times 2$ matrix because $X$ is $2\times 3$ and the multiplication must also result in a $2\times 3$ matrix, namely $X$. Thus, the left identity should be
+$$
+I = \left[
+ \begin{array}{rr}
+ 1 & 0 \\ 
+ 0 & 1 \\ 
+  \end{array}
+\right]
+$$
+
+We can confirm this with a quick test.
+```{r}
+X <- matrix(c(2,4,8,
+              1,3,2), ncol=3, nrow=2, byrow=TRUE)
+I <- matrix(c(1,0,
+              0,1), ncol=2,nrow=2, byrow=TRUE)
+
+I %*% X
+```
+This shows that the reasoning is correct. The pattern to notice here is that the left identity will be a square matrix with the number of rows and columns equal to the number of rows of $X$ and the right identity will be a square matrix with the number of rows and columns equal to the number of columns of $X$.
+
+### Problem 27
