@@ -721,3 +721,655 @@ I %*% X
 This shows that the reasoning is correct. The pattern to notice here is that the left identity will be a square matrix with the number of rows and columns equal to the number of rows of $X$ and the right identity will be a square matrix with the number of rows and columns equal to the number of columns of $X$.
 
 ### Problem 27
+> Find the inverse of
+$$
+X = \left[
+ \begin{array}{rrr}
+ 3 & 0 & 0 \\ 
+ 0 & 7 & 0 \\
+ 0 & 0 & 2 \\
+  \end{array}
+\right]
+$$
+and verify your answer.
+
+The inverse of $X$ is the matrix that when multiplied with $X$ produces the $3\times 3$ identity matrix. This matrix should be the reciprocals for the diagonal entries.
+
+$$
+X^{-1} = \left[
+ \begin{array}{rrr}
+ 1/3 & 0 & 0 \\ 
+ 0 & 1/7 & 0 \\
+ 0 & 0 & 1/2 \\
+  \end{array}
+\right]
+$$
+
+We can verify this with R code.
+```{r}
+X <- matrix(c(3,0,0,
+              0,7,0,
+              0,0,2), ncol=3,nrow=3,byrow=TRUE)
+inv(X)
+```
+The result above confirms this intuition.
+
+### Problem 28
+> Let
+$$
+X = \left[
+\begin{array}{rr}
+ 0 & 0 \\ 
+ 6 & 1 \\
+\end{array}
+\right]
+$$
+a.) Show that
+$$
+X^{-1} = \left[
+\begin{array}{rrr}
+ 1/3 & 0 \\ 
+ -2 & 0 \\
+\end{array}
+\right]
+$$
+
+To find $X^{-1}$, we need to solve the following equation:
+$$
+\left[
+\begin{array}{rr}
+ 3 & 0 \\ 
+ 6 & 1 \\
+\end{array}
+\right]
+\left[
+\begin{array}{rr}
+ a & b \\ 
+ c & d \\
+\end{array}
+\right] = 
+\left[
+\begin{array}{rr}
+ 1 & 0 \\ 
+ 0 & 1 \\
+\end{array}
+\right]
+$$
+
+This matrix multiplication results in the following linear equations:
+$$
+3a = 1,\quad 3b = 0,\quad 6a + c = 0,\quad 6b + d = 1
+$$
+The solutions are $a=1/3,\quad b=0,\quad c=-2,\quad d=1$. When these values are plugged into the inverse matrix, we get the values indicated above.
+
+> b.) Let
+$$
+A=\left[
+\begin{array}{rr}
+ a & b \\ 
+ c & d \\
+\end{array}
+\right]
+$$
+be any invertible $2\times 2$ matrix. By direct manipulation, show that
+$$
+A^{-1}=\left[
+\begin{array}{rr}
+ \frac{d}{ad-bc} & \frac{-b}{ad-bc} \\ 
+ \frac{-c}{ad-bc} & \frac{a}{ad-bc} \\
+\end{array}
+\right]
+$$
+
+To show this, we again solve a matrix multiplication problem.
+
+$$
+\left[
+\begin{array}{rr}
+ a & b \\ 
+ c & d \\
+\end{array}
+\right]
+\left[
+\begin{array}{rr}
+ x & y \\ 
+ z & w \\
+\end{array}
+\right] = 
+\left[
+\begin{array}{rr}
+ 1 & 0 \\ 
+ 0 & 1 \\
+\end{array}
+\right]
+$$
+
+Four equations result from this and so we want to solve for $x,y,z,\text{ and } w$ in terms of $a,b,c,\text{ and }d$. The equations are
+$$
+\begin{align}
+ax + bz = 1\\
+cx + dz = 0\\
+ay + bw = 0\\
+cy + dw = 1
+\end{align}
+$$
+We start with the first two, solving for $x$ and $z$.
+
+$$
+\begin{align}
+ax + bz = 1\\
+cx + dz = 0\\
+x = \frac{-dz}{c}\\
+\frac{-adz}{c} + bz = 1\\
+z(b - \frac{ad}{c}) = 1\\
+z(bc - ad) = c\\
+z = \frac{c}{bc - ad} = \frac{-c}{ad- bc}\\
+x = -\frac{d}{c}\frac{(-c)}{ad-bc} = \frac{d}{ad-bc}
+\end{align}
+$$
+We can then apply the same proceedure to solve for $y$ and $w$.
+$$
+\begin{align}
+ay + bw = 0\\
+cy + dw = 1\\
+y = \frac{-bw}{a}\\
+\frac{-cbw}{a} + dw = 1\\
+w(d - \frac{cb}{a}) = 1\\
+w(ad - bc) = a\\
+w = \frac{a}{ad-bc}\\
+y = -\frac{-b}{a}\frac{(a)}{ad-bc} = \frac{-b}{ad-bc}
+\end{align}
+$$
+Now we can plug these values in for the corresponding entries in the matrix:
+$$
+A^{-1}=\left[
+\begin{array}{rr}
+  \frac{d}{ad-bc} & \frac{-b}{ad-bc} \\ 
+ \frac{-c}{ad- bc} &  \frac{a}{ad-bc} \\
+\end{array}
+\right]
+$$
+> c.) Let
+$$
+A=\left[
+\begin{array}{rr}
+ 2 & 4 \\ 
+ 1 & -3 \\
+\end{array}
+\right]
+$$
+Use the algorithm of part b to find $A^{-1}$.
+
+First, we need to compute $ad-bc = 2*(-3) - 4(1) = -10$.
+
+plugging this into the matrix, we get
+$$
+A^{-1}=\left[
+\begin{array}{rr}
+ \frac{-3}{-10} & \frac{-4}{-10} \\ 
+ \frac{-1}{-10} & \frac{2}{-10} \\
+\end{array}
+\right]=
+\left[
+\begin{array}{rr}
+ 0.3 & 0.4 \\ 
+ 0.1 & -0.2 \\
+\end{array}
+\right]
+$$
+
+We can confirm this with R code.
+```{r}
+A <- matrix(c(2,4,
+              1,-3), ncol=2,nrow=2,byrow=TRUE)
+
+inv(A)
+```
+This confirms that the algorithm was properly applied.
+
+### Problem 29
+> Prove that $(XY)^{-1} = Y^{-1}X^{-1}$.
+
+Start by multiplying both sides of the equation by $(XY)$.
+$$
+(XY)(XY)^{-1} = (XY)Y^{-1}X^{-1}
+$$
+This simplifies to
+$$
+\begin{align}
+I = X(YY^{-1})X^{-1}\\
+I = XIX^{-1}\\
+I = XX^{-1}\\
+I = I
+\end{align}
+$$
+
+This demonstrates that the two sides of the original equation are identical.
+
+### Problem 30
+>Prove that if $X$, $Y$, and $Z$ are conformable and nonsingular then $(XYZ)^{-1} = Z^{-1}Y^{-1}X^{-1}$.
+
+This is just an extension of the previous problem. If $X$ and $Y$ are nonsingular and conformable, the their product is nonsingular and conformable with $Z$. Let $W = XY$, then we have already shown that $WZ = Z^{-1}W^{-1}$ and we know what $W^{-1} = Y^{-1}X^{-1}$ and this demonstrates that $(XYZ)^{-1} = Z^{-1}Y^{-1}X^{-1}$.
+
+Alternatively, just left multiply both sides by $XYZ$ and you can show that this assertion is true.
+
+### Problem 31
+> Prove that $(X^T)^{-1} = (X^{-1})^T$.
+
+To do this, we will need to leverage the distributive property of the transpose, but going backwards. We start by simplifying the left side of the equation to the identity matrix and attempt to demonstrate equality after applying the simplifying steps.
+
+$$
+\begin{align}
+(X^T)(X^T)^{-1} = X^T(X^{-1})^T \\
+I = (X^{-1}X)^T\quad\text{this step is the crux.} \\
+I = I^T = I
+\end{align}
+$$
+By applying a left matrix multiplication by $X^T$ to both sides of the initial equation, we can show that they are, in fact, equivalent.
+
+### Problem 32
+> Use the computational shortcut from section 1.2 to show that
+$$
+X = \left[{
+\begin{array}{cc}
+\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}\\
+\frac{-1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+\end{array}
+}\right]
+$$
+
+We can use the dot product, $\vec{x_1}^T\cdot\vec{x_2}$, to investigate this. If the dot product is zero, the two column vectors are orthogonal.
+
+$$
+\bigg[\frac{1}{\sqrt{2}}\quad \frac{-1}{\sqrt{2}}\bigg]\cdot \left[{
+\begin{array}{c}
+\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}}
+\end{array}
+}\right] = \frac{1}{2} - \frac{1}{2} = 0
+$$
+So the two vectors are, in fact, orthogonal and form an orthogonal basis for $\mathbb{R}^2$.
+
+### Problem 33
+> Is
+$$
+X = \left[{\begin{array}{cc}
+-1 & 1\\
+1 & 1
+\end{array}
+}\right]
+$$
+orthogonal? If not, what value of $c$ makes the matrix $cX$ ortgononal?
+
+Just looking at the two column vectors, they appear to be orthogonal.
+
+```{r}
+dot_product <- function (x,y) {
+  len <- length(x)
+  result <- 0
+  for (i in 1:len) {
+    result <- result + x[i]*y[i]
+  }
+  result
+}
+
+x1 <- c(-1,1) 
+x2 <- c(1,1)
+
+dot_product(x1,x2)
+```
+The dot product is zero, so the two column vectors are orthogonal.
+
+I don't think that there is any value of $c$ that can make the column vectors of a matrix orthogonal to each other. $c$ will just scale the column vectors but will not change the angles between them. 
+### Problem 34
+>Is
+$$
+X = \left[{\begin{array}{cccc}
+-1 & 1 & -1 & -1 \\
+1 & -1 & 1 & -1\\
+1 & -1 & -1 & 1\\
+1 & 1 & 1 & 1\\
+\end{array}
+}\right]
+$$
+orthogonal? If not, what value of $c$ makes the matrix $cX$ orthgononal?
+
+The columns look orthogonal because the negative signs don't match up so the vectors look linearly independent and because of the combos of 1 and -1, they look like they are probably orthogonal. To know for sure, we need to take dot products.
+
+```{r}
+x1 <- c(1,1,1,1)
+x2 <- c(1,-1,-1,1)
+x3 <- c(-1,1,-1,1)
+x4 <- c(-1,-1,1,1)
+
+c(
+  dot_product(x1,x2),
+  dot_product(x1,x3),
+  dot_product(x1,x4),
+  dot_product(x2,x3),
+  dot_product(x2,x4),
+  dot_product(x3,x4)
+)
+
+```
+All of the dot products are zero, so the column vectors are orthogonal.
+
+### Problem 35
+> Prove that if $X$ is orthogonal, $X^{-1}$ and $X^T$ are orthogonal.
+
+An orthogonal matrix has the property that $X^T = X^{-1}$ by definition 1.3.3. This means that $X^T = X^{-1}$. Thus, we only need to show that $X^T$ is orthogonal to prove that both are.
+
+If $X^TX = I$, then $XX^T=I$. Recall that the columns of $X^T$ are the rows of $X$. The fact that $XX^T=I$ tells us that the rows of $X$ are orthonormal because we must get a value of 1 when we take the dot product of a row with itself (the corresponding column in the transpose matrix), but we get zeros for all other dot products. We have to in order to get the identity matrix as a result of the matrix multiplication. But if the rows of $X$ are orthonormal, then the columns of $X^T$ are orthonormal. This implies that $X^T$ is an orthogonal matrix.
+
+### Problem 36
+> Let
+$$
+\vec{x} = \left [{
+\begin{array}{c}
+2 \\
+1 \\
+3
+\end{array}
+} \right ]\quad\text{and}\quad \vec{y} = \left [{
+\begin{array}{c}
+1 \\
+2 \\
+0
+\end{array}
+} \right ]
+$$
+a.) Are $\vec{x}$ and $\vec{y}$ orthogonal?
+b.) What is the length of $\vec{x}$? Of $\vec{y}$?
+
+a.) We can compute the dot product of $\vec{x}$ and $\vec{y}$ to determine if they are orthogonal.
+$$
+\vec{x}^T\cdot\vec{y} = 2*1 + 1*2 + 3*0 = 4
+$$
+Since $\vec{x}^T\cdot\vec{y} \neq 0$, the two vectors are not orthogonal.
+
+b.) We compute $\vec{x}^T\cdot\vec{x} = 2^2 + 1^2 + 3^2 = 14$. The length of $\vec{x}$ is given by $||\vec{x}|| = \sqrt{14}$. We do the same for $\vec{y}$. $\vec{y}^T\cdot\vec{y} = 1^2 + 2^2 + 0^2 = 5$, so $||\vec{y}|| = \sqrt{5}$.
+
+### Problem 37
+> Let
+$$
+\vec{x_1} = \left [{
+\begin{array}{c}
+1 \\
+1 \\
+-1 \\
+-1 \\
+\end{array}
+} \right ], \quad \vec{x_2} = \left [{
+\begin{array}{c}
+1 \\
+-1 \\
+1 \\
+-1
+\end{array}
+} \right ]\text{,}\quad \vec{x_3} = \left [{
+\begin{array}{c}
+1 \\
+1 \\
+1 \\
+1
+\end{array}
+} \right ]
+$$
+Is $\{\vec{x_1}, \vec{x_2}, \vec{x_3} \}$ an orthonormal set? If not, find a constant $c$ such that $\{c\vec{x_1}, c\vec{x_2}, c\vec{x_3} \}$ is an orthonormal set. Is the choice of $c$ unique.
+
+```{r}
+x1 <- c(1,1,-1,-1)
+x2 <- c(1,-1,1,-1)
+x3 <- c(1,1,1,1)
+
+c(
+  dot_product(x1,x2),
+  dot_product(x1,x3),
+  dot_product(x2,x3)
+)
+```
+These vectors are orthogonal, but each has a length of 2. 
+
+```{r}
+c(
+  dot_product(x1, x1),
+  dot_product(x2, x2),
+  dot_product(x3, x3)
+)
+```
+Therefore, to form an orthonormal set, we need to normalise each vector. We can accomplish this by multiplying each vector by $1/2$.
+
+```{r}
+x1 <- 1/2*x1
+x2 <- 1/2*x2
+x3 <- 1/2*x3
+
+c(
+  dot_product(x1, x1),
+  dot_product(x2, x2),
+  dot_product(x3, x3)
+)
+
+
+```
+Now the vectors are orthonormal.
+
+### Problem 38
+> Prove Theorem 1.3.1.
+
+At the root, we need to leverage the definition of an orthogonal matrix, that $X^TX = I$. If this is the case, then the columns of $X$ must be an orthonormal set because this is the only way for the matrix product $X^TX$ to be equal to the identity matrix.
+
+### Problem 39
+> Prove that if $X$ is orthogonal, then its rows also form an orthonormal set.
+
+We can use the fact that if $X$ is orthongonal, then $XX^T = I$. This matrix multiplication results in taking the dot product of the rows of $X$ and the columns of $X^T$. But the columns of $X^T$ are the rows of $X$. The resulting matrix is the identity matrix. The dot product of the row with its own transpose will be one. All other dot products must be zero in order to produce the identity matrix. This implies that the rows of $X$ are an orthonormal set.
+
+### Problem 40
+> Find the eigenvectors associated with eigenvalue $\lambda_2$ of example 1.4.1.
+
+$$
+A = \left[{
+\begin{array}{cc}
+1 & 1\\
+-2 & 4
+\end{array}
+}\right], \lambda_2 = 3
+$$
+To find the eigenvectors associated with $\lambda_2$, we need to solve the homogeneous matrix equation $[A - 3I]\vec{x} = \vec{0}$.
+
+$$
+[A - 3I] = \left[{
+\begin{array}{cc}
+1 & 1\\
+-2 & 4
+\end{array}
+}\right] - \left[{
+\begin{array}{cc}
+3 & 0 \\
+0 & 3
+\end{array}
+}\right] = \left[{
+\begin{array}{cc}
+-2 & 1\\
+-2 & 1
+\end{array}
+}\right]
+$$
+We can solve the system
+$$
+\left[{
+\begin{array}{cc}
+-2 & 1\\
+-2 & 1
+\end{array}
+}\right]\vec{x} = \vec{0}
+$$
+
+By row reducing the augmented matrix
+$$
+\left[{
+\begin{array}{ccc}
+-2 & 1 & 0\\
+-2 & 1 & 0
+\end{array}
+}\right]
+$$
+
+$x_2$ is free and $x_1 = 1/2x_2$. We can write the solution as
+$$
+\vec{x} = x_2\left[{
+\begin{array}{c}
+1\\
+2
+\end{array}
+}\right]
+$$
+or simply,
+$$
+\vec{x} = \left[{
+\begin{array}{c}
+1\\
+2
+\end{array}
+}\right]
+$$
+
+We can check our result with the following R code:
+```{r}
+A <- matrix(c(1,1,-2,4), ncol=2, nrow=2, byrow=TRUE)
+
+X <- eigen(A)$vectors
+X
+```
+We want the first vector, associated with $\lambda = 3$. This vector has been normalised, but if we multiply by $-\sqrt{5}$ we can convert it to the vector obtained above.
+
+```{r}
+-1*sqrt(5)*X[,1]
+```
+
+### Problem 41
+> Consider the matrix
+$$
+A = \left[{
+\begin{array}{cc}
+1 & -1\\
+2 & 4
+\end{array}
+}\right]
+$$
+Is there any guarantee that the eigenvalues of this matrix are real? If they are real, find the eigenvalues and eigenvectors associated with $A$.
+
+Since $A$ is not symmetric, there is no guarantee that all eigenvalues are real. We will have to solve the characteristic equation to find the eigenvalues and then solve $A\vec{x} = \lambda\vec{x}$ to find the associated eigenvectors.
+
+The characteristic equation for this matrix is $\lambda^2 - 5\lambda + 6 = 0$, which results in eigenvalues of $\lambda_1 = 3$ and $\lambda_2=2$.
+
+We then solve the homogeneous equation $[A - \lambda_i]\vec{x} = \vec{0}$ for each eigenvalue to obtain the eigenvectors. The eigenvectors are 
+$$
+\lambda_1: \left[{
+\begin{array}{c}
+-1\\
+2
+\end{array}
+}\right], \lambda_2: \left[{
+\begin{array}{c}
+-1\\
+1
+\end{array}
+}\right]
+$$
+
+### Problem 42
+> Consider the matrix
+$$
+A = \left[{
+\begin{array}{cc}
+1 & 1\\
+-1 & 2
+\end{array}
+}\right]
+$$
+Is there any guarantee that the eigenvalues of this matrix are real? If they are real, find the eigenvalues and eigenvectors associated with $A$.
+
+This matrix is not symmetric so there is no guarantee that all of its eigenvalues are real. We find the eigenvalues with the characteristic equation generate from
+$$
+\begin{align}
+\text{det}\left|{
+\begin{array}{cc}
+1-\lambda & 1\\
+-1 & 2-\lambda
+\end{array}}\right| = 0\\
+(1-\lambda)(2 - \lambda) - (1)(-1) = 0\\
+2 - \lambda - 2\lambda + \lambda^2 + 1 = 0\\
+\lambda^2 - 3\lambda + 3 = 0
+\end{align}
+$$
+This characteristic equation does not have any real roots. The two roots are
+$$
+\frac{3 \pm \sqrt{3}i}{2}
+$$
+
+### Problem 43
+> Consider the matrix
+$$
+A = \left[{
+\begin{array}{cc}
+1 & 1\\
+1 & 1
+\end{array}
+}\right]
+$$
+Is there any guarantee that the eigenvalues of this matrix are real? If they are real, find the eigenvalues and eigenvectors associated with $A$.
+
+Yes, this matrix is symmetric so it will have 2 real eigenvalues. We can find those eigenvalues by solving the characteristic equation
+$$
+\begin{align}
+\text{det}\left|{
+\begin{array}{cc}
+1-\lambda & 1\\
+-1 & 1-\lambda
+\end{array}}\right| = 0\\
+(1-\lambda)(1 - \lambda) - (1)(-1) = 0\\
+1 - \lambda - \lambda + \lambda^2 - 1 = 0\\
+\lambda^2 - 2\lambda = 0\\
+\lambda(\lambda-2) = 0\\
+\lambda = 0\text{ or }2
+\end{align}
+$$
+
+There are two real eigenvalues as expected, $\lambda = 0$ and $\lambda = 2$. To find the eigenvectors, we solve the matrix equation $[A - \lambda I]\vec{x} = \vec{0}$ for each of the eigenvalues.
+
+Since the first eigenvalue is $\lambda_1 = 0$, $A - 0I = A$. Therefore, the homogeneous system we have to solve to find the eigenvectors is
+$$
+\left[{
+\begin{array}{ccc}
+1 & 1 & 0\\
+1 & 1 & 0
+\end{array}}\right]
+$$
+Which gives the eigenvector
+$$
+\vec{x_1} = \left[{
+\begin{array}{c}
+-1\\
+1
+\end{array}}\right].
+$$
+For $\lambda_2 = 2$, we solve this homogeneous system
+$$
+\left[{
+\begin{array}{ccc}
+-1 & 1 & 0\\
+1 & -1 & 0
+\end{array}}\right]
+$$
+Which gives the eigenvector
+$$
+\vec{x_2} = \left[{
+\begin{array}{c}
+1\\
+1
+\end{array}}\right].
+$$
+
+
+
