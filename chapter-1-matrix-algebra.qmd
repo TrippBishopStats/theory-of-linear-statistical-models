@@ -1371,5 +1371,142 @@ $$
 \end{array}}\right].
 $$
 
+### Problem 49
+>Let
+$$
+\vec{x_1} = \left[{
+\begin{array}{c}
+1\\
+4\\
+1
+\end{array}}\right], \vec{x_2} = \left[{
+\begin{array}{c}
+1\\
+0\\
+1
+\end{array}}\right],
+\vec{x_3} = \left[{
+\begin{array}{c}
+2\\
+0\\
+0
+\end{array}}\right]
+$$
+Are these vectors linearly independent?
 
+A quick inspection suggests that they are, but to know for sure, we can make them the column vectors of a matrix, $A$, and solve the homogeneous equation $A\vec{x} = \vec{0}$. If the only solution is the trivial solution, $\vec{x} = \vec{0}$, then the vectors are linearly independent.
+
+```{r}
+A <- matrix(c(1,1,2,
+              4,0,0,
+              1,1,0), ncol=3,nrow=3,byrow=TRUE)
+Solve(A, c(0,0,0))
+
+```
+This is the case, so these vectors are linearly independent.
+
+### Problem 50
+> What is the rank of the matrix
+$$
+X = \left[{
+\begin{array}{ccc}
+1 & 1 & 2 \\
+4 & 0 & 0 \\
+1 & 1 & 0
+\end{array}}\right]
+$$
+Is $X$ of full rank?
+
+$X$ is full rank if the dimension of the column space or row space is 3. If there is a pivot in every column of $X$ then it will be full rank.
+```{r}
+X <- matrix(c(1,1,2,
+              4,0,0,
+              1,1,0), ncol=3, nrow=3, byrow=TRUE)
+
+echelon(X)
+```
+We see that there is, in fact, a pivot in every row so this matrix is full rank.
+
+### Problem 51
+>Let
+$$
+\vec{x_1} = \left[{
+\begin{array}{c}
+1\\
+1\\
+2
+\end{array}}\right], \vec{x_2} = \left[{
+\begin{array}{c}
+2\\
+-3\\
+-1
+\end{array}}\right],
+\vec{x_3} = \left[{
+\begin{array}{c}
+3\\
+4\\
+7
+\end{array}}\right]
+$$
+Are these vectors linearly independent?
+
+A quick inspection suggests that they are, but to know for sure, we can make them the column vectors of a matrix, $A$, and solve the homogeneous equation $A\vec{x} = \vec{0}$. If the only solution is the trivial solution, $\vec{x} = \vec{0}$, then the vectors are linearly independent.
+
+```{r}
+A <- matrix(c(1,2,3,
+              1,-3,4,
+              2,-1,7), ncol=3,nrow=3,byrow=TRUE)
+Solve(A, c(0,0,0))
+
+```
+As it turns out, $x_3$ is a free variable and so these vectors are *not* linearly independent.
+
+### Problem 52
+What is the rank of the matrix
+$$
+Y = \left[{
+\begin{array}{ccc}
+1 & 2 & 3 \\
+1 & -3 & 4\\
+2 & -1 & 7
+\end{array}}\right]
+$$
+Is $Y$ of full rank?
+
+```{r}
+Y <- matrix(c(1,2,3,
+              1,-3,4,
+              2,-1,7), ncol=3, nrow=3, byrow=TRUE)
+
+echelon(Y)
+
+```
+There is a free variable, so this matrix is rank 2. It is not full rank.
+
+### Problem 53
+> Let $X$ be a $k\times k$ orthogonal matrix. Prove that $X$ is of full rank.
+
+Since we know that $X$ is orthogonal, we know that the columns are linearly independent. This means that $X$ is nonsingular. The null space of $X$ has dimension zero and therefore, by the rank-nullity theorem, the rank must be $k$. This means that $X$ is full rank. We could have also just said that because the dimension of the column space is $k$, the matrix is full rank.
+
+### Problem 54
+> Suppose that $X$ is $k\times k$ or rank less than $k$. Is $X$ nonsingular? Explain.
+
+Since we know that some of the columns of $X$ are linear combinations of the linearly independent ones, we know that the determinant of $X$ is 0. This means that the matrix is singular.
+
+### Problem 55
+> Consider the matrix $X$ of exercise 50. Is $X$ nonsingular? Explain.
+
+This matrix is full rank, so we expect that its determinant is not zero. 
+
+```{r}
+X <- matrix(c(1,1,2,
+              4,0,0,
+              1,1,0), ncol=3, nrow=3, byrow=TRUE)
+
+echelon(X)
+
+det(X)
+
+```
+Computing the determinant show this to be the case, so $X$ is nonsingular as expected.
 
