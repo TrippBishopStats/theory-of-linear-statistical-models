@@ -1,0 +1,105 @@
+---
+title: "Chapter 2 - Quadratic Forms"
+format: html
+---
+
+A quadratic form is a relation between two or more variables that only contains quadratic terms. For example, $ax^2 + bxy + cy^2$ is a quadratic form. We might express it slightly differently for convenience as $ax^2 + 2bxy + cy^2$ for reasons that will become clear shortly. The format is fine when we only have two terms, but it gets really cumbersome as more variables are related.
+
+If we only had linear terms, we would have an expression like $ax + by +cz$ and we could express this as the dot product of two vectors:
+$$
+\left[{
+\begin{array}{c}
+a \\
+b \\
+c
+\end{array}}\right]\cdot
+\left[{
+\begin{array}{c}
+x \\
+y \\
+z
+\end{array}}\right]
+$$
+and this, in turn, could be expressed more compactly as $\vec{v}\cdot\vec{x}$. We could add many more terms, but the expression remains the same.
+
+So the question is, can we do the same for quadratic forms? It turns out we can! Since we have more dimensions, we need a matrix to encode the constant terms and we need a vector for the variables. Take the two dimensional case.
+$$
+M = \left[{
+\begin{array}{cc}
+a & b \\
+b & c
+\end{array}}\right]
+$$
+is a symmetric matrix and 
+$$
+\vec{x} = \left[{
+\begin{array}{c}
+x\\
+y
+\end{array}}\right]
+$$
+is a vector containing the variables $x$ and $y$. To capture the relationship $ax^2 + 2by + cy^2$, we perform matrix multiplication.
+$$
+M\vec{x} = \left[{
+\begin{array}{cc}
+a & b \\
+b & c
+\end{array}}\right]
+\left[{
+\begin{array}{c}
+x\\
+y
+\end{array}}\right] = 
+\left[{
+\begin{array}{cc}
+ax + by \\
+bx + cy
+\end{array}}\right]
+$$
+This gets us closer, but we don't yet have the quadratic form. We have a $1\times 2$ matrix, or a vector of terms and none are quadratic. To get the rest of the way, we need to introduce the final piece of the puzzle, $\vec{x}^T$. If we multiply $\vec{x}^TM$, we have
+$$
+\left[{
+\begin{array}{cc}
+x & y
+\end{array}}\right]
+\left[{
+\begin{array}{cc}
+ax + by \\
+bx + cy
+\end{array}}\right] = 
+x(ax + by) + y(bx + cy) = ax^2 + 2bxy + cy^2
+$$
+This shows the result that we were after and why we used $2b$ as the coefficient in the original exposition of the two variable quadratic form.
+
+$\vec{x}^TM\vec{x}$ remains compact regardless of the number of terms and variables we have. If we have 3 variables, the quadratic form would be $ax^2 + bxy _cyz + dxz + ey^2 + fz^2$ and that's just 3 variables! It's easier to express this with a $3\times 3$ symmetric matrix and a vector and its transpose.
+$$
+\left[{
+\begin{array}{ccc}
+x & y & z
+\end{array}}\right]
+\left[{
+\begin{array}{cc}
+a & b & c \\
+b & d & e \\
+c & e & f
+\end{array}}\right]
+\left[{
+\begin{array}{c}
+x\\
+y\\
+z
+\end{array}}\right]
+$$
+
+As the number of terms grows, $\vec{x}^TM\vec{x}$ remains compact!
+
+If we want to expand $\vec{x}^TM\vec{x} = q$, we can use summation notation
+$$
+q = \sum^k_{i=1}\sum^k_{j=1} m_{ij}x_ix_j
+$$
+
+Quadratic forms can be assigned to different categories. Two of those types are **positive definite** and **positive semidefinite**. $\vec{x}^TM\vec{x}$ is said to be positive definite if $\vec{x}^TM\vec{x} > 0$ for all $\vec{x} \neq \vec{0}$ and positive semidefinite if $\vec{x}^TM\vec{x} \geq 0$ for all $\vec{x}$ and $\vec{x}^TM\vec{x} = 0$ for some $\vec{x} \neq \vec{0}$.
+
+**Theorem 2.1.1** - A symmetric matrix $A$ is positive definite if and only if all of its eigenvalues are positive.
+
+**Theorem 2.1.2** - A symmetric matrix $A$ is positive semidefinite if and only if its eigenvalues are all nonnegative and at least one eigenvalue is zero.
