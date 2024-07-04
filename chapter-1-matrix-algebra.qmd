@@ -1510,3 +1510,140 @@ det(X)
 ```
 Computing the determinant show this to be the case, so $X$ is nonsingular as expected.
 
+### Problem 56
+> Consider the matrices $X$ and $Y$ of Exercises 50 and 52, respectively. What is the rank of the matrix $XY$? of the matrix $YX$? Explain.
+
+$$
+X = \left[{
+\begin{array}{ccc}
+1 & 1 & 2 \\
+4 & 0 & 0 \\
+1 & 1 & 0
+\end{array}}\right];\quad
+Y = \left[{
+\begin{array}{ccc}
+1 & 2 & 3 \\
+1 & -3 & 4\\
+2 & -1 & 7
+\end{array}}\right]
+$$
+
+```{r}
+X <- matrix(c(1,1,2,
+              4,0,0,
+              1,1,0), ncol=3, nrow=3, byrow=TRUE)
+
+Y <- matrix(c(1,2,3,
+              1,-3,4,
+              2,-1,7), ncol=3, nrow=3, byrow=TRUE)
+
+echelon(X %*% Y)
+```
+The rank of $XY$ is 2.
+
+```{r}
+echelon(Y %*% X)
+```
+The rank of $YX$ is also 2.
+
+This makes sense because the rank of the product of $X$ and $Y$ (either direction) is less than or equal to the rank of $X$ and less then or equal to the rank of $Y$. Since $Y$ is rank 2, both $XY$ and $YX$ must be rank 2 or less.
+
+### Problem 57
+Let
+$$
+X = \left[{
+\begin{array}{ccc}
+1 & 1 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & -1 \\
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+\end{array}}\right]
+$$
+Is $X$ of full rank? Is $X$ nonsingular?
+
+$X$ cannot be nonsingular because it is not square. It doesn't have a determinant and given that the domain is $\mathbb{R}^5$ and the codomain is $\mathbb{R}^3$ it is onto but not one to one.
+
+$X$ does look to be full rank because its column vectors look to be linearly independent, so it should have a pivot in every column.
+
+```{r}
+X <- matrix(c(1,1,0,
+              0,1,1,
+              0,0,-1,
+              0,1,0,
+              1,0,0), ncol=3, nrow=5, byrow=TRUE)
+
+echelon(X)
+
+```
+So this shows that the rank of this matrix is 3. Given that there are 3 columns, this is a full rank matrix.
+
+### Problem 58
+> Consider the following statements. If a statement is false, provide a counterexample to show that it is false.<br/>
+a) Every orthongonal matrix is nonsingular.<br/>
+b) Every nonsingular matrix is orthogonal.<br/>
+c) Every matrix of full rank is square.<br/>
+d) Every square matrix is of full rank.<br/>
+e) Every nonsingular matrix is of full rank.<br/>
+f) Every matrix of full rank is nonsingular.<br/>
+g) Every orthogonal matrix is of full rank.<br/>
+h) Every matrix of full rank is orthogonal.
+
+a) True. An orthogonal matrix is defined as a $k\times k$ matrix whose transpose is also its inverse. Its columns form an orthonormal set. This means that they are all linearly independent and therefore the determinant is nonzero and the matrix must be singular.
+
+b) False. Consider the following matrix:
+$$
+X = \left[{
+\begin{array}{cc}
+1 & 1\\
+0 & 1\\
+\end{array}}\right]
+$$
+It is clearly nonsingular because it's determinant is not zero. It is not orthogonal because the second column is not a unit vector, it has length $\sqrt{2}$. Furthore, the two vectors are not orthogonal, their dot product is 1, not zero.
+
+c) False. Consider the matrix in problem 57. It is full rank, but not square.
+
+d) False. A square matrix may not have columns that are all linearly indepedent. Take for example
+$$
+X = \left[{
+\begin{array}{ccc}
+1 & 1 & 2\\
+0 & 1 & 1\\
+1 & 2 & 3
+\end{array}}\right]
+$$
+This matrix is square, but the third column is a linear combination of the first two and so it is rank 2 not full rank.
+
+e) True. For the matrix to be nonsingular, its columns must for a linearly independent set. If this is the case then it will have a pivot in every column of the row echelon form of the matrix, indicating that it is full rank.
+
+f) False. Again, see the matrix $X$ from problem 57. It is full rank but cannot be nonsingular because it is not square and therefore does not have a determinant.
+
+g) True. This is true for the same reason that part *e* is true.
+
+h) False. To be full rank, the column vectors need to form a linearly independent set, but they need not be orthogonal to each other. The matrix defined in part *b* shows this.
+
+### Problem 59
+>Consider the matrix
+$$
+X = \left[{
+\begin{array}{cccc}
+2 & 0 & 0 & 0 \\
+0 & 4 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1
+\end{array}}\right]
+$$
+What is the rank of $X$? Since $r(X)\neq 4$, the columns of $X$ are not linearly independent. Demonstrate this by finding constants $a_1, a_2, a_3\text{ and }, a_4$ not *all* zero such that $a_1\vec{x_1} + a_2\vec{x_2} + a_3\vec{x_3} + a_4\vec{x_4} = \vec{0}$. Are these values unique? That is, could you find a second set of values that would also satisfy the criterion for linear dependence.
+
+The rank of $X$ is 3. This is very apparent if we swap rows 3 and 4. The matrix is in reduced row echelon form after dividing row 1 by 2 and row 2 by 4. This means that $x_3$ is a free variable and we can find an infinite number of solutions to the homogeneous equation of the form
+$$
+\vec{x} = x_3\left[{
+\begin{array}{c}
+0\\
+0\\
+1\\
+0
+\end{array}}\right]
+$$
+The other variables are all zero. $x_3$ can literally be any value because its corresponding column vector is the zero vector.
+
