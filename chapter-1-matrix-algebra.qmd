@@ -1647,3 +1647,153 @@ $$
 $$
 The other variables are all zero. $x_3$ can literally be any value because its corresponding column vector is the zero vector.
 
+### Problem 60
+> Consider the matrix
+$$
+X = \left[{
+\begin{array}{cc}
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right]
+$$
+Show that $X$ is idempotent.
+
+In order to be idempotent $X^2 = X$ must be true.
+
+$$
+X^2 = \left[{
+\begin{array}{cc}
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right]\left[{
+\begin{array}{cc}
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right] = 
+\left[{
+\begin{array}{cc}
+\frac{1}{4} + \frac{1}{4} & \frac{1}{4} + \frac{1}{4}\\
+\frac{1}{4} + \frac{1}{4} & \frac{1}{4} + \frac{1}{4}\\
+\end{array}}\right] = \left[{
+\begin{array}{cc}
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right] = X
+$$
+Therefore, $X$ is idempotent.
+
+### Problem 61
+> Is it possible for an idempotent matrix to have a negative value on its main diagonal? If so, give an example of such a matrix.
+
+Let's consider a generic $2\times 2$ matrix
+$$
+A = \left[{
+\begin{array}{cc}
+a & b\\
+c & d\\
+\end{array}}\right]
+$$
+If we compute its square, we get the following result
+$$
+A^2 = \left[{
+\begin{array}{cc}
+a & b\\
+c & d\\
+\end{array}}\right]\left[{
+\begin{array}{cc}
+a & b\\
+c & d\\
+\end{array}}\right] = 
+\left[{
+\begin{array}{cc}
+a ^2 + bc& ab + bd\\
+ac + dc & d^2 + bc\\
+\end{array}}\right]
+$$
+If we assume that $A$ is idempotent, then the following is true
+$$
+\left[{
+\begin{array}{cc}
+a^2 + bc& ab + bd\\
+ac + dc & d^2 + bc\\
+\end{array}}\right] = \left[{
+\begin{array}{cc}
+a & b\\
+c & d\\
+\end{array}}\right]
+$$
+This result gives us a series of equations
+$$
+a^2 + bc = a\\
+ab + bd = b\\
+ac + dc = c\\
+d^2 + bc = d
+$$
+We can then simplify the second and third equations to $a + d = 1$ by dividing out the $b$ and $c$ terms. The other two equations can be rearranged as follows
+$$
+a^2 - a + bc = 0\\
+d^2 - d + bc = 0
+$$
+We can then apply the quadratic formula to find potential values for $a$ and $d$ that are negative.
+$$
+a = \frac{1 \pm \sqrt{1 - 4bc}}{2}
+$$
+Once we have a value for $a$ we can use the relation $d = 1 - a$ to find $d$. We just need to pick values of $b$ and $c$ so that the discriminant is a real value, thus $bc\leq\frac{1}{4}$ must be satisfied. If we choose $b=-5$ and $c=4$, then
+$$
+a = \frac{1\pm\sqrt{1 + 80}}{2} = \frac{1\pm 9}{2}.
+$$
+We want $a<0$ so we use $a = -4$. Then, $d = 1 - (-4) = 5$. This gives use the following values for the entries of $A$:
+$$
+A = \left[{
+\begin{array}{cc}
+-4 & -5\\
+4 & 5\\
+\end{array}}\right]
+$$
+If we compute the square of $A$ with some R code, we find
+```{r}
+A <- matrix(c(-4, -5,
+              4, 5), 
+  ncol=2, nrow=2, byrow=TRUE)
+
+A %*% A
+```
+shows us that $A$ is idempotent and has a negative value on the main diagonal.
+
+It appears that these matrices produced by this method are singular as the determinant of this example is zero.
+
+This process can be generalised to larger $k\times k$ matrices using the same technique. The arithmetic gets considerable more complicated as $k$ gets larger, but the idea of a series of equations with constraints emerges.
+
+### Problem 62
+> Is it possible for an idempotent matrix to have a negative VALUE oOFF its main diagonal? If so, give an example of such a matrix.
+
+Yes. Consider the matrix
+$$
+X = \left[{
+\begin{array}{cc}
+\frac{1}{2} & -\frac{1}{2}\\
+-\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right]
+$$
+If we square it, we get the following
+$$
+X^2 = \left[{
+\begin{array}{cc}
+\frac{1}{2} & -\frac{1}{2}\\
+-\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right]\left[{
+\begin{array}{cc}
+\frac{1}{2} & -\frac{1}{2}\\
+-\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right] = 
+\left[{
+\begin{array}{cc}
+\frac{1}{4} + \frac{1}{4} & -\frac{1}{4} - \frac{1}{4}\\
+-\frac{1}{4} - \frac{1}{4} & \frac{1}{4} + \frac{1}{4}\\
+\end{array}}\right] = \left[{
+\begin{array}{cc}
+\frac{1}{2} & -\frac{1}{2}\\
+-\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right] = X
+$$
+which demonstrates that $X$ is idempotent with negative values off the main diagonal.
