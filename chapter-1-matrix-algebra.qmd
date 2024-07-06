@@ -1724,15 +1724,19 @@ c & d\\
 $$
 This result gives us a series of equations
 $$
+\begin{align}
 a^2 + bc = a\\
 ab + bd = b\\
 ac + dc = c\\
 d^2 + bc = d
+\end{align}
 $$
 We can then simplify the second and third equations to $a + d = 1$ by dividing out the $b$ and $c$ terms. The other two equations can be rearranged as follows
 $$
+\begin{align}
 a^2 - a + bc = 0\\
 d^2 - d + bc = 0
+\end{align}
 $$
 We can then apply the quadratic formula to find potential values for $a$ and $d$ that are negative.
 $$
@@ -1797,3 +1801,102 @@ X^2 = \left[{
 \end{array}}\right] = X
 $$
 which demonstrates that $X$ is idempotent with negative values off the main diagonal.
+
+### Problem 63
+> Let $I$ be the $n \times n$ identity matrix and let $X$ be an $n\times k$ matrix of full rank. Show that $I - X(X^TX)^{-1}X^T$ is idempotent.
+
+This is straight-forward.
+$$
+[I - X(X^TX)^{-1}X^T][I - X(X^TX)^{-1}X^T] = I^2  - X(X^TX)^{-1}X^T - X(X^TX)^{-1}X^T - X(X^TX)^{-1}X^TX(X^TX)^{-1}X^T
+$$
+We know that the identity matrix is idempotent, so $I^2 = I$. We know that matrix multiplication is associative, so we can simplify the expansion above as follows:
+$$
+I^2  - X(X^TX)^{-1}X^T - X(X^TX)^{-1}X^T - X(X^TX)^{-1}X^TX(X^TX)^{-1}X^T = I - 2X(X^TX)^{-1}X^T + X(X^TX)^{-1}(X^TX)(X^TX)^{-1}X^T
+$$
+and $(X^TX)^{-1}X^TX = I$ and so the last term simplifies to $X(X^TX)^{-1}X^T$ and so the expansion further simplifies to $I - X(X^TX)^{-1}X^T$ which is the expression that we started out with, therefore $I - 2X(X^TX)^{-1}X^T$ is an idempotent matrix.
+
+### Problem 64
+> Let
+$$
+X = \left[{
+\begin{array}{ccc}
+1 & 2 & 0\\
+0 & 1 & 0\\
+1 & 3 & 4
+\end{array}}\right];\text{ and }Y = \left[{
+\begin{array}{ccc}
+0 & 1 & 0\\
+1 & -1 & 2\\
+3 & 2 & 0
+\end{array}}\right]
+$$
+Find $tr(X)$, $tr(Y)$, $tr(XY)$, and $tr(YX)$. Verify that $tr(XY) = tr(YX)$.
+
+$tr(X) = 6$ and $tr(Y) = -1$.
+
+```{r}
+X <- matrix(c(1,2,0,
+              0,1,0,
+              1,3,4), ncol=3, nrow=3, byrow=TRUE)
+Y <- matrix(c(0,1,0,
+              1,-1,2,
+              3,2,0), ncol=3, nrow=3, byrow=TRUE)
+
+X%*%Y
+
+```
+$tr(XY) = 7$.
+
+```{r}
+Y%*%X
+```
+$tr(YX) = 7$.
+
+Therefore, $tr(XY)=tr(YX)$.
+
+### Problem 65
+Prove that $tr(XY) = tr(YX)$.
+
+
+
+### Problem 66
+> Consider the matrix in Exercise 60. What are the possible values for the eigenvalues of this matrix? Verify your answer by finding the eigenvalues.
+
+The matrix from Exercise 60 is
+$$
+X = \left[{
+\begin{array}{cc}
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}\\
+\end{array}}\right]
+$$
+and it has been shown to be idempotent. This means that the eigenvalues of this matrix can either be 1's or 0's. To verify this, we need to solve the characteristic equation for the matrix to find the eigenvalues.
+
+The characteristic equation for this matrix can be determined by solving the determinant equation
+$$
+\begin{align}
+|A - \lambda I| = 0\\[0.5cm]
+\left|{
+\begin{array}{cc}
+\frac{1}{2} - \lambda & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2} - \lambda\\
+\end{array}}\right| = 0\\[0.5cm]
+\bigg(\frac{1}{2}-\lambda\bigg)\bigg(\frac{1}{2}-\lambda\bigg) - \frac{1}{4} = 0\\[0.5cm]
+\frac{1}{4} - \lambda + \lambda^2 - \frac{1}{4} = 0\\[0.5cm]
+\lambda^2 - \lambda = 0\\[0.5cm]
+\lambda(\lambda - 1) = 0\\[0.5cm]
+\lambda=0\text{ or }\lambda = 1
+\end{align}
+$$
+
+### Problem 67
+> What is the rank of the matrix in Exercise 60?
+
+The columns are not linearly independent, so the matrix is not full rank. In this case, $r(X)=1$, since there is only one pivot column when the matrix is row reduced.
+
+```{r}
+X = matrix(c(1/2,1/2,1/2,1/2), ncol=2, nrow=2, byrow=TRUE)
+
+echelon(X)
+```
+
