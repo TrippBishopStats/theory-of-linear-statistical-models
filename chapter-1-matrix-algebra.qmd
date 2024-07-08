@@ -1900,3 +1900,71 @@ X = matrix(c(1/2,1/2,1/2,1/2), ncol=2, nrow=2, byrow=TRUE)
 echelon(X)
 ```
 
+### Problem 68
+> Consider a $4\times 4$ diagonal idempotent matrix $A$ of rank 2. How many columns of $A$ are non-zero. Give an example of such a matrix. Is the example unique? That is, is your example the only one possible?
+
+There will be 2 non-zero columns in $A$ since it is a rank 2 matrix. 
+
+$$
+A = \left[{
+\begin{array}{cc}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{array}}\right]
+$$
+is one such matrix. Any matrix that meets the requirements will be of the form
+$$
+A = \left[{
+\begin{array}{cc}
+a_{11} & 0 & 0 & 0\\
+0 & a_{22} & 0 & 0\\
+0 & 0 & a_{33} & 0\\
+0 & 0 & 0 & a_{44}
+\end{array}}\right]
+$$
+
+where $a_{11}^2 = a_{11}$, $a_{22}^2 = a_{22}$, $a_{33}^2 = a_{33}$, and $a_{44}^2 = a_{44}$. The only possible values that the 4 diagonal entries can take to satisfy these constraints are 0 and 1. Given that $A$ must be rank 2, only two out 4 of the entries of $A$ can be 1. Therefore, there are $\binom{4}{2} = 6$ possible matrices that can satisfy the requires of $A$. 
+
+
+### Problem 69
+
+```{r}
+X <- matrix(c(1,0,3,2,0,0,
+              0,0,0,2,1,1,
+              -1,3,0,-2,0,-3,
+              0,0,0,-1,0,0,
+              2,-3,-1,2,1,-1,
+              0,1,0,0,1,5,
+              -3,1,-2,0,0,-2,
+              0,0,0,0,1,0,
+              1,0,0,0,0,-2,
+              0,1,0,0,1,1), ncol=6, nrow=10, byrow=TRUE)
+
+H <- X %*% inv(t(X)%*%X) %*% t(X)
+
+matlib::tr(H)
+
+```
+
+
+```{r}
+X_t <- matrix(c(1,0,
+              0,1,
+              1,2), ncol=2, nrow=3, byrow=TRUE)
+
+X <- t(X_t)
+
+A <- matrix(c(2,3,1,
+              3,-1,2,
+              1,2,0), ncol=3, nrow=3, byrow=TRUE)
+
+A <- matrix(c(1,4,3,
+              4,-1,-3,
+              3,-3,0), ncol=3, nrow=3, byrow=TRUE)
+
+X%*%A%*%X_t
+
+```
+

@@ -103,3 +103,45 @@ Quadratic forms can be assigned to different categories. Two of those types are 
 **Theorem 2.1.1** - A symmetric matrix $A$ is positive definite if and only if all of its eigenvalues are positive.
 
 **Theorem 2.1.2** - A symmetric matrix $A$ is positive semidefinite if and only if its eigenvalues are all nonnegative and at least one eigenvalue is zero.
+
+
+
+```{r}
+A <- matrix(c(1/sqrt(2),-1/sqrt(2),0,
+              1/sqrt(2),1/sqrt(2),0,
+              0,0,1), ncol=3, nrow=3, byrow=TRUE)
+
+A_t <- t(A)
+
+A_t %*% A
+
+A %*% A_t
+
+
+```
+
+
+
+
+
+
+
+## Exercises
+
+### Problem 27
+> Let $Y_i$ and $Y_j$ be random variables with means $\mu_i$ and $\mu_j$, respectively. Then $\text{cov}(Y_i, Y_j) = E[Y_iY_j] - E[Y_i]E[Y_j]$. That is, $\sigma_{ij} = E[Y_iY_j] - \mu_i\mu_j$. Verify this result. *(Hint: Recall that $\text{cov}(Y_i, Y_j) = E[(Y_i - \mu_i)(Y_j - \mu_j)]$. Multiply $(Y_i - \mu_i)$ by $(Y_j - \mu_j)$ and simplify the resulting expression).* 
+
+Key facts for this analysis:
+
+1) The expectation of a constant is just that constant.
+2) The expectation acts like a linear operator so $E[A + B] = E[A]+E[B]$ and $E[cA] = cE[A]$ where $c$ is a scalar.
+
+We start out with $\text{cov}(Y_i, Y_j) = E[Y_iY_j] - E[Y_i]E[Y_j]$ and we are given that $E[Y_i]=\mu_i$ and $E[Y_j]=\mu_j$. We know that $\text{cov}(Y_i, Y_j) = E[(Y_i - \mu_i)(Y_j - \mu_j)]$ and if we multiply the terms we get $\text{cov}(Y_i,Y_j) = E[(Y_iY_j - \mu_jY_i - \mu_iY_j + \mu_i\mu_j)]$. We can use the two properties of the expectation listed above to simplify this expression.
+$$
+\begin{align}
+E[(Y_iY_j - \mu_jY_i - \mu_iY_j + \mu_i\mu_j)] &= E[(Y_iY_j] - E[\mu_jY_i] - E[\mu_iY_j] + E[\mu_i\mu_j]\\
+&=E[(Y_iY_j] - \mu_jE[Y_i] - \mu_iE[Y_j] + \mu_i\mu_j\\
+&=E[(Y_iY_j] - \mu_i\mu_j - \mu_i\mu_j + \mu_i\mu_j\\
+&=E[(Y_iY_j] - \mu_i\mu_j
+\end{align}
+$$
