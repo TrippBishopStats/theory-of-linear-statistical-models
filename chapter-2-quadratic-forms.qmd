@@ -213,3 +213,17 @@ P^T_2AP_1 & P^T_2AP_2
 $$
 What are the dimensions of each of these submatrices?
 
+a) The dimensions of $P^T$, $P_1^T$, and $P_2^T$ are $n \times n$, $k\times n$, and $(n-k)\times n$ respectively.
+
+We can show that that $P^T$ is composed of $P_1^T$ stacked on top of $P_2^T$. We know that $P_1$ is composed of the $k$ columns of $P$ and all the rows, so when we transpose, we get a matrix that now has $k$ rows and $n$ columns. This represents the first $k$ rows of $P^T$. $P_2^T$ represents the bottom $n-k$ rows of $P^T$ so if we "tack it on underneath" $P_1^T$ then the two partitions constitute the entirety of $P^T$.
+
+b) Since $P^T$ is $n\times n$ and $\vec{y}$ is $n\times 1$ we know that the resulting matrix multiplication will result in a new $n\times 1$ matrix (column vector). We also know that $P_1^T$ is $k\times n$ so multiplying it with $\vec{y}$ will result in a $k\times 1$ vector. The product of $P_2^T$ and $\vec{y}$ will result in a $(n-k)\times 1$ vector. When we put the two vectors "back together" stacking $P_1^T\vec{y}$ on $P_2^T\vec{y}$ we get the same $n\times 1$ vector we would get is we just multiplied $P^T$ by $\vec{y}$.
+
+c) We can make a very similar argument for $P^TAP$. The dimensions of the partitions are:
+
+$P^T_1AP_1$ is $k\times k$
+$P^T_1AP_2$ is $k\times (n-k)$
+$P^T_2AP_1$ is $(n-k)\times k$
+$P^T_2AP_2$ is $(n-k)\times (n-k)$
+
+Combining these individual matrices together produces the expected $n\times n$ matrix.
